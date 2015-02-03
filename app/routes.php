@@ -27,3 +27,4 @@ Route::get('/', function()
 
 Route::get('/login', 'AuthController@loginPage');
 Route::post('/login', array('before' => 'loginFormValidation', 'uses' => 'AuthController@login'));
+Route::get('/logout', 'AuthController@logout');
