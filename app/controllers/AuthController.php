@@ -8,8 +8,11 @@ class AuthController extends \BaseController {
 	 * @return Response
 	 */
 	public function loginPage()
-	{
-		return View::make('auth.login');  
+	{	
+		if( Auth::check() )
+			return Redirect::to('/home'); 
+
+		return View::make('auth.login'); 		
 	}
 
 
@@ -25,73 +28,25 @@ class AuthController extends \BaseController {
 			'password' => Input::get('password')
 		); 
 
-		if(Auth::attempt($userCredentials)){
+		if(Auth::attempt($userCredentials, $rememberMe = true)){
 		    return "login successful"; 
 		}
 
 		return Redirect::to('/login')
-			->withErrors('login or password is invalid'); 
+				->withErrors('login or password is invalid'); 
 
 	}
 
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Logout 
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function logout()
 	{
-		//
+		Auth::logout(); 
+		return Redirect::to('/'); 
 	}
-
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 
 }
