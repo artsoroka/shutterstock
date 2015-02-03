@@ -25,23 +25,5 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('/login', function()
-{	
-	return View::make('auth.login');  
-});
-
-Route::post('/login', array('before' => 'loginFormValidation', function()
-{   
-	$userCredentials = array(
-		'login' => Input::get('login'), 
-		'password' => Input::get('password')
-	); 
-
-	if(Auth::attempt($userCredentials)){
-	    return "login successful"; 
-	}
-
-	return Redirect::to('/login')->withErrors('login or password is invalid'); 
-
-
-}));
+Route::get('/login', 'AuthController@loginPage');
+Route::post('/login', array('before' => 'loginFormValidation', 'uses' => 'AuthController@login'));
